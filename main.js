@@ -5,9 +5,6 @@ const {
 const { spawn } = require('child_process');
 const Store = require('electron-store');
 const Sentry = require('@sentry/electron');
-const fixPath = require('fix-path');
-
-fixPath();
 
 Sentry.init({ dsn: 'https://18c9943a576d41248b195b5678f2724e@sentry.io/1506479' });
 
