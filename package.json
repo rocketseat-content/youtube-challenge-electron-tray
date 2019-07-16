@@ -1,0 +1,14 @@
+{
+  "name": "code-tray",
+  "version": "1.0.0",
+  "main": "main.js",
+  "repository": "https://github.com/diego3g/youtube-challenge-electron-tray",
+  "author": "Diego Fernandes <diego.schell.f@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {
+    "electron": "^5.0.7"
+  }
+}
