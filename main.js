@@ -2,7 +2,7 @@ const { resolve, basename } = require('path');
 const {
   app, Menu, Tray, dialog,
 } = require('electron');
-const { spawn } = require('child_process');
+const { spawn, exec } = require('child_process');
 const Store = require('electron-store');
 const Sentry = require('@sentry/electron');
 
@@ -16,9 +16,13 @@ const schema = {
 
 const store = new Store({ schema });
 
-app.dock.hide();
+if(app.dock){
+    app.dock.hide()
+}
 
-function render(tray) {
+let tray = null;
+
+function render() {
   const storedProjects = store.get('projects');
   const projects = storedProjects ? JSON.parse(storedProjects) : [];
 
@@ -28,6 +32,11 @@ function render(tray) {
       {
         label: 'Abrir no VSCode',
         click: () => {
+        
+          if(process.platform === 'win32'){
+            exec(`code ${project.path}`);
+            return;
+          }
           spawn('code', [project.path], {
             cwd: process.cwd(),
             env: {
@@ -86,7 +95,7 @@ function render(tray) {
 }
 
 app.on('ready', () => {
-  const tray = new Tray(resolve(__dirname, 'assets', 'iconTemplate.png'));
+  tray = new Tray(resolve(__dirname, 'assets', 'iconTemplate.png'));
 
-  render(tray);
+  render();
 });
