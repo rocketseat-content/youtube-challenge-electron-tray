@@ -84,6 +84,7 @@ function render() {
   ]);
 
   tray.setContextMenu(contextMenu);
+  tray.on('click', tray.popUpContextMenu);
 }
 
 app.on('ready', () => {
