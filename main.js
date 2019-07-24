@@ -17,6 +17,7 @@ if(app.dock){
 }
 
 let tray = null;
+let trayPosition = {};
 
 function render() {
   const storedProjects = store.get('projects');
@@ -44,6 +45,9 @@ function render() {
           store.set('projects', projects.filter(item => item.path !== project.path));
 
           render();
+
+          if(trayPosition)
+            tray.popUpContextMenu(null, trayPosition);
         },
       },
     ],
@@ -84,7 +88,10 @@ function render() {
   ]);
 
   tray.setContextMenu(contextMenu);
-  tray.on('click', tray.popUpContextMenu);
+  tray.on('click', (event, boundaries, position) => {
+    tray.popUpContextMenu();
+    trayPosition = position;
+  });
 }
 
 app.on('ready', () => {
