@@ -95,7 +95,7 @@ function render() {
 }
 
 app.on('ready', () => {
-  tray = new Tray(resolve(__dirname, 'assets', `icon${isWindows && 'White'}Template.png`));
+  tray = new Tray(resolve(__dirname, 'assets', `icon${isWindows ? 'White' : ''}Template.png`));
 
   render();
 });
