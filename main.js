@@ -8,13 +8,7 @@ const Sentry = require('@sentry/electron');
 
 Sentry.init({ dsn: 'https://18c9943a576d41248b195b5678f2724e@sentry.io/1506479' });
 
-const schema = {
-  projects: {
-    type: 'string',
-  },
-};
-
-const store = new Store({ schema });
+const store = new Store();
 
 if(app.dock){
     app.dock.hide()
@@ -24,7 +18,7 @@ let tray = null;
 
 function render() {
   const storedProjects = store.get('projects');
-  const projects = storedProjects ? JSON.parse(storedProjects) : [];
+  const projects = storedProjects || [];
 
   const items = projects.map(project => ({
     label: project.name,
@@ -32,7 +26,7 @@ function render() {
       {
         label: 'Abrir no VSCode',
         click: () => {
-        
+
           if(process.platform === 'win32'){
             exec(`code ${project.path}`);
             return;
@@ -49,7 +43,7 @@ function render() {
       {
         label: 'Remover',
         click: () => {
-          store.set('projects', JSON.stringify(projects.filter(item => item.path !== project.path)));
+          store.set('projects', projects.filter(item => item.path !== project.path));
 
           render();
         },
@@ -68,10 +62,10 @@ function render() {
         const [path] = result;
         const name = basename(path);
 
-        store.set('projects', JSON.stringify([...projects, {
+        store.set('projects', [...projects, {
           path,
           name,
-        }]));
+        }]);
 
         render();
       },
