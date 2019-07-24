@@ -2,11 +2,13 @@ const { resolve, basename } = require('path');
 const {
   app, Menu, Tray, dialog,
 } = require('electron');
-const { spawn, exec } = require('child_process');
+const { spawn } = require('child_process');
 const Store = require('electron-store');
 const Sentry = require('@sentry/electron');
 
 Sentry.init({ dsn: 'https://18c9943a576d41248b195b5678f2724e@sentry.io/1506479' });
+
+const isWindows = process.platform.includes('win');
 
 const store = new Store();
 
@@ -26,17 +28,13 @@ function render() {
       {
         label: 'Abrir no VSCode',
         click: () => {
-
-          if(process.platform === 'win32'){
-            exec(`code ${project.path}`);
-            return;
-          }
           spawn('code', [project.path], {
             cwd: process.cwd(),
             env: {
               PATH: process.env.PATH,
             },
             stdio: 'inherit',
+            shell: isWindows
           });
         },
       },
