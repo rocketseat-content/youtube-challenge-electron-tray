@@ -40,7 +40,10 @@ function render(tray) {
       {
         label: 'Remover',
         click: () => {
-          store.set('projects', JSON.stringify(projects.filter(item => item.path !== project.path)));
+          store.set(
+            'projects',
+            JSON.stringify(projects.filter(item => item.path !== project.path)),
+          );
 
           render();
         },
@@ -59,10 +62,16 @@ function render(tray) {
         const [path] = result;
         const name = basename(path);
 
-        store.set('projects', JSON.stringify([...projects, {
-          path,
-          name,
-        }]));
+        store.set(
+          'projects',
+          JSON.stringify([
+            ...projects,
+            {
+              path,
+              name,
+            },
+          ]),
+        );
 
         render();
       },
