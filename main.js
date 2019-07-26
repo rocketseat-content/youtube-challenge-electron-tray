@@ -30,13 +30,13 @@ function render(tray = mainTray) {
       {
         label: 'Abrir no VSCode',
         click: () => {
-          spawn('code', [project.path],[{
+          spawn('code', [project.path],{
             cwd: process.cwd(),
             env: {
               PATH: process.env.PATH,
             },
-            stdio: 'inherit',
-          }])
+            stdio: ['inherit'],
+          })
         },
       },
       {
