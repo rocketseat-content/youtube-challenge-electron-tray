@@ -2,7 +2,7 @@ const { resolve, basename } = require('path');
 const {
   app, Menu, Tray, dialog,
 } = require('electron');
-const { spawn, exec } = require('child_process');
+const spawn = require('cross-spawn')
 const Store = require('electron-store');
 const Sentry = require('@sentry/electron');
 
@@ -26,31 +26,17 @@ function render() {
   const storedProjects = store.get('projects');
   const projects = storedProjects ? JSON.parse(storedProjects) : [];
 
-  const items = projects.map(project => ({
-    label: project.name,
+  const items = projects.map(( {name, path} ) => ({
+    label: name,
     submenu: [
       {
         label: 'Abrir no VSCode',
-        click: () => {
-        
-          if(process.platform === 'win32'){
-            exec(`code ${project.path}`);
-            return;
-          }
-          spawn('code', [project.path], {
-            cwd: process.cwd(),
-            env: {
-              PATH: process.env.PATH,
-            },
-            stdio: 'inherit',
-          });
-        },
+        click: () => spawn('code', [path])
       },
       {
         label: 'Remover',
         click: () => {
-          store.set('projects', JSON.stringify(projects.filter(item => item.path !== project.path)));
-
+          store.set('projects', JSON.stringify(projects.filter(item => item.path !== path)));
           render();
         },
       },
@@ -96,6 +82,5 @@ function render() {
 
 app.on('ready', () => {
   tray = new Tray(resolve(__dirname, 'assets', 'iconTemplate.png'));
-
   render();
 });
