@@ -54,10 +54,16 @@ function render() {
         const [path] = result;
         const name = basename(path);
 
-        store.set('projects', JSON.stringify([...projects, {
-          path,
-          name,
-        }]));
+        store.set(
+          'projects',
+          JSON.stringify([
+            ...projects,
+            {
+              path,
+              name,
+            },
+          ]),
+        );
 
         render();
       },
