@@ -14,7 +14,9 @@ const schema = {
   },
 };
 
-let mainTray = null
+let mainTray = {}
+
+if(app.dock){ app.dock.hide() }
 
 const store = new Store({ schema });
 
@@ -28,13 +30,13 @@ function render(tray = mainTray) {
       {
         label: 'Abrir no VSCode',
         click: () => {
-          spawn('code', [project.path], {
+          spawn('code', [project.path],[{
             cwd: process.cwd(),
             env: {
               PATH: process.env.PATH,
             },
             stdio: 'inherit',
-          });
+          }])
         },
       },
       {
