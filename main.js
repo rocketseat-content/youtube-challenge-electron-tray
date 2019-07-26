@@ -14,11 +14,11 @@ const schema = {
   },
 };
 
+let mainTray = null
+
 const store = new Store({ schema });
 
-app.dock.hide();
-
-function render(tray) {
+function render(tray = mainTray) {
   const storedProjects = store.get('projects');
   const projects = storedProjects ? JSON.parse(storedProjects) : [];
 
@@ -86,7 +86,7 @@ function render(tray) {
 }
 
 app.on('ready', () => {
-  const tray = new Tray(resolve(__dirname, 'assets', 'iconTemplate.png'));
+  mainTray = new Tray(resolve(__dirname, 'assets', 'iconTemplate.png'));
 
-  render(tray);
+  render(mainTray);
 });
