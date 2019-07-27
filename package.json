@@ -8,6 +8,7 @@
   "license": "MIT",
   "scripts": {
     "start": "electron .",
+    "dev": "nodemon --exec electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
     "postinstall": "electron-builder install-app-deps"
@@ -21,7 +22,8 @@
     "electron-builder": "^21.0.15",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.2.0",
-    "eslint-plugin-import": "^2.18.0"
+    "eslint-plugin-import": "^2.18.0",
+    "nodemon": "^1.19.1"
   },
   "build": {
     "appId": "com.rocketseat.codetray",
