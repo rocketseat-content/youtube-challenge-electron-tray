@@ -8,19 +8,20 @@ const Sentry = require('@sentry/electron');
 
 Sentry.init({ dsn: 'https://18c9943a576d41248b195b5678f2724e@sentry.io/1506479' });
 
-const schema = {
-  projects: {
-    type: 'string',
-  },
-};
+const isWindows = process.platform.includes('win');
 
-const store = new Store({ schema });
+const store = new Store();
 
-app.dock.hide();
+if(app.dock){
+    app.dock.hide()
+}
 
-function render(tray) {
+let tray = null;
+let trayPosition = {};
+
+function render() {
   const storedProjects = store.get('projects');
-  const projects = storedProjects ? JSON.parse(storedProjects) : [];
+  const projects = storedProjects || [];
 
   const items = projects.map(project => ({
     label: project.name,
@@ -34,18 +35,19 @@ function render(tray) {
               PATH: process.env.PATH,
             },
             stdio: 'inherit',
+            shell: isWindows
           });
         },
       },
       {
         label: 'Remover',
         click: () => {
-          store.set(
-            'projects',
-            JSON.stringify(projects.filter(item => item.path !== project.path)),
-          );
+          store.set('projects', projects.filter(item => item.path !== project.path));
 
           render();
+
+          if(trayPosition)
+            tray.popUpContextMenu(null, trayPosition);
         },
       },
     ],
@@ -62,16 +64,10 @@ function render(tray) {
         const [path] = result;
         const name = basename(path);
 
-        store.set(
-          'projects',
-          JSON.stringify([
-            ...projects,
-            {
-              path,
-              name,
-            },
-          ]),
-        );
+        store.set('projects', [...projects, {
+          path,
+          name,
+        }]);
 
         render();
       },
@@ -92,10 +88,14 @@ function render(tray) {
   ]);
 
   tray.setContextMenu(contextMenu);
+  tray.on('click', (event, boundaries, position) => {
+    tray.popUpContextMenu();
+    trayPosition = position;
+  });
 }
 
 app.on('ready', () => {
-  const tray = new Tray(resolve(__dirname, 'assets', 'iconTemplate.png'));
+  tray = new Tray(resolve(__dirname, 'assets', `icon${isWindows ? 'White' : ''}Template.png`));
 
-  render(tray);
+  render();
 });
