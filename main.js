@@ -1,12 +1,7 @@
 const { resolve, basename } = require('path');
-const {
-  app, Menu, Tray, dialog,
-} = require('electron');
+const { app, Menu, Tray, dialog } = require('electron');
 const { spawn } = require('child_process');
 const Store = require('electron-store');
-const Sentry = require('@sentry/electron');
-
-Sentry.init({ dsn: 'https://18c9943a576d41248b195b5678f2724e@sentry.io/1506479' });
 
 const schema = {
   projects: {
@@ -26,7 +21,7 @@ function render(tray) {
     label: project.name,
     submenu: [
       {
-        label: 'Abrir no VSCode',
+        label: 'Open in VSCode',
         click: () => {
           spawn('code', [project.path], {
             cwd: process.cwd(),
@@ -38,7 +33,7 @@ function render(tray) {
         },
       },
       {
-        label: 'Remover',
+        label: 'Remove',
         click: () => {
           store.set(
             'projects',
@@ -53,7 +48,8 @@ function render(tray) {
 
   const contextMenu = Menu.buildFromTemplate([
     {
-      label: 'Adicionar novo projeto...',
+      label: 'Add project...',
+      accelerator: 'Cmd+A',
       click: () => {
         const result = dialog.showOpenDialog({ properties: ['openDirectory'] });
 
@@ -85,7 +81,8 @@ function render(tray) {
     },
     {
       type: 'normal',
-      label: 'Fechar Code Tray',
+      label: 'Quit',
+      accelerator: 'Cmd+Q',
       role: 'quit',
       enabled: true,
     },
@@ -95,7 +92,6 @@ function render(tray) {
 }
 
 app.on('ready', () => {
-  const tray = new Tray(resolve(__dirname, 'assets', 'iconTemplate.png'));
-
+  const tray = new Tray(resolve(__dirname, 'assets', 'rocketTemplate.png'));
   render(tray);
 });

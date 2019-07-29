@@ -8,35 +8,23 @@
   "license": "MIT",
   "scripts": {
     "start": "electron .",
-    "dev": "nodemon --exec electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
     "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
-    "@sentry/electron": "0.17.1",
     "electron-store": "^4.0.0"
   },
   "devDependencies": {
     "electron": "^5.0.7",
     "electron-builder": "^21.0.15",
-    "eslint": "^5.16.0",
-    "eslint-config-airbnb-base": "^13.2.0",
-    "eslint-plugin-import": "^2.18.0",
-    "nodemon": "^1.19.1"
+    "electron-store": "^4.0.0"
   },
   "build": {
     "appId": "com.rocketseat.codetray",
     "productName": "Code Tray",
     "mac": {
       "category": "public.app-category.developer-tools"
-    },
-    "linux": {
-      "category": "Utility",
-      "icon": "iconLinux.png",
-      "target": [
-        "AppImage"
-      ]
     }
   }
 }
