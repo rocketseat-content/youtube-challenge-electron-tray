@@ -2,7 +2,7 @@ const { resolve, basename } = require('path');
 const {
   app, Menu, Tray, dialog,
 } = require('electron');
-const { spawn } = require('child_process');
+const spawn = require('cross-spawn')
 const Store = require('electron-store');
 const Sentry = require('@sentry/electron');
 
@@ -16,7 +16,9 @@ const schema = {
 
 let mainTray = {}
 
-if(app.dock){ app.dock.hide() }
+if (app.dock) { 
+  app.dock.hide() 
+}
 
 const store = new Store({ schema });
 
@@ -24,13 +26,13 @@ function render(tray = mainTray) {
   const storedProjects = store.get('projects');
   const projects = storedProjects ? JSON.parse(storedProjects) : [];
 
-  const items = projects.map(project => ({
-    label: project.name,
+  const items = projects.map(( {name, path} ) => ({
+    label: name,
     submenu: [
       {
         label: 'Abrir no VSCode',
         click: () => {
-          spawn('code', [project.path],{
+          spawn('code', [path],{
             cwd: process.cwd(),
             env: {
               PATH: process.env.PATH,
@@ -42,8 +44,7 @@ function render(tray = mainTray) {
       {
         label: 'Remover',
         click: () => {
-          store.set('projects', JSON.stringify(projects.filter(item => item.path !== project.path)));
-
+          store.set('projects', JSON.stringify(projects.filter(item => item.path !== path)));
           render();
         },
       },
@@ -61,10 +62,16 @@ function render(tray = mainTray) {
         const [path] = result;
         const name = basename(path);
 
-        store.set('projects', JSON.stringify([...projects, {
-          path,
-          name,
-        }]));
+        store.set(
+          'projects',
+          JSON.stringify([
+            ...projects,
+            {
+              path,
+              name,
+            },
+          ]),
+        );
 
         render();
       },
