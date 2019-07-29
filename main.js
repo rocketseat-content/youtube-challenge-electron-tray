@@ -45,7 +45,7 @@ function render(tray) {
             JSON.stringify(projects.filter(item => item.path !== project.path)),
           );
 
-          render();
+          render(tray);
         },
       },
     ],
@@ -73,7 +73,7 @@ function render(tray) {
           ]),
         );
 
-        render();
+        render(tray);
       },
     },
     {
