@@ -14,15 +14,15 @@ const schema = {
   },
 };
 
-const store = new Store({ schema });
+let mainTray = {}
 
-if(app.dock){
-    app.dock.hide()
+if (app.dock) { 
+  app.dock.hide() 
 }
 
-let tray = null;
+const store = new Store({ schema });
 
-function render() {
+function render(tray = mainTray) {
   const storedProjects = store.get('projects');
   const projects = storedProjects ? JSON.parse(storedProjects) : [];
 
@@ -31,7 +31,15 @@ function render() {
     submenu: [
       {
         label: 'Abrir no VSCode',
-        click: () => spawn('code', [path])
+        click: () => {
+          spawn('code', [path],{
+            cwd: process.cwd(),
+            env: {
+              PATH: process.env.PATH,
+            },
+            stdio: ['inherit'],
+          })
+        },
       },
       {
         label: 'Remover',
@@ -87,6 +95,7 @@ function render() {
 }
 
 app.on('ready', () => {
-  tray = new Tray(resolve(__dirname, 'assets', 'iconTemplate.png'));
-  render();
+  mainTray = new Tray(resolve(__dirname, 'assets', 'iconTemplate.png'));
+
+  render(mainTray);
 });

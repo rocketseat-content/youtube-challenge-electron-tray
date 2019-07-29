@@ -11,6 +11,7 @@
     "dev": "nodemon --exec electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
+    "dist:linux": "electron-builder --linux",
     "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
@@ -34,9 +35,11 @@
     },
     "linux": {
       "category": "Utility",
-      "icon": "iconLinux.png",
+      "icon": "icon.png",
       "target": [
-        "AppImage"
+        "deb",
+        "snap",
+        "rpm"
       ]
     }
   }
