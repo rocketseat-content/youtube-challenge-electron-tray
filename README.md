@@ -29,9 +29,9 @@ Code Challenge - Electron
 
 ## Features
 
-- :electron: **Electron** — desktop apps with JavaScript, HTML, and CSS
-- 🔺 **Sentry** - cross platform application monitoring
-- 💖 **Lint** — ESlint, Prettier and EditorConfig
+- :electron:  **Electron** — desktop apps with JavaScript, HTML, and CSS
+- 🔺**Sentry** - cross platform application monitoring
+- 💖**Lint** — ESlint, Prettier and EditorConfig
 
 ## Dependencies
 
