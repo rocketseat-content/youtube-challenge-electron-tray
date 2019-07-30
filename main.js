@@ -16,8 +16,8 @@ const schema = {
 
 let mainTray = {}
 
-if (app.dock) { 
-  app.dock.hide() 
+if (app.dock) {
+  app.dock.hide()
 }
 
 const store = new Store({ schema });
@@ -32,14 +32,28 @@ function render(tray = mainTray) {
       {
         label: 'Abrir no VSCode',
         click: () => {
-          spawn('code', [path],{
-            cwd: process.cwd(),
-            env: {
-              PATH: process.env.PATH,
-            },
-            stdio: ['inherit'],
-          })
+          if(process.platform == 'darwin') {
+            spawn('open', ['-a', 'Visual Studio Code', [path]], { stdio: 'inherit' });
+          } else {
+            // Considerando que esse comando esta rodando no windows / linux
+            spawn('code', [path],{
+              cwd: process.cwd(),
+              env: {
+                PATH: process.env.PATH,
+              },
+              stdio: ['inherit'],
+            })
+          }
         },
+      },
+      {
+        // Mac only por enquanto
+        label: 'Abrir no terminal',
+        click: function() {
+          if(process.platform == 'darwin') {
+            spawn('open', ['-a', 'Terminal', [path]], { stdio: 'inherit' });
+          }
+        }
       },
       {
         label: 'Remover',
