@@ -5,6 +5,12 @@ const {
 const { spawn } = require('child_process');
 const Store = require('electron-store');
 const Sentry = require('@sentry/electron');
+const AutoLaunch = require('auto-launch');
+
+// Criando Code Tray Launcher
+const CodeTrayAppLauncher = new AutoLaunch({
+  name: 'code-tray',
+});
 
 Sentry.init({ dsn: 'https://18c9943a576d41248b195b5678f2724e@sentry.io/1506479' });
 
@@ -84,6 +90,11 @@ function render(tray) {
       type: 'separator',
     },
     {
+      label: 'Settings',
+      role: 'quit',
+      enabled: true,
+    },
+    {
       type: 'normal',
       label: 'Fechar Code Tray',
       role: 'quit',
@@ -92,6 +103,20 @@ function render(tray) {
   ]);
 
   tray.setContextMenu(contextMenu);
+
+  // Habilitando O Code Tray Launcher
+  // Quando habilitado ele faz com que inicie junto com o sistema
+  CodeTrayAppLauncher.enable();
+  CodeTrayAppLauncher.isEnabled()
+    .then((isEnabled) => {
+      if (isEnabled) {
+        return;
+      }
+      CodeTrayAppLauncher.enable();
+    })
+    .catch(() => {
+      // handle error
+    });
 }
 
 app.on('ready', () => {
