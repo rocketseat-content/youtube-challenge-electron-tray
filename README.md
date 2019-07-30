@@ -1,77 +1,56 @@
-# Code Tray
-> Code Tray foi criado para agilizar a vida do desenvolvedor.
+<h1 align="center">
+<br>
+  <img src="build/icon.png" alt="GoBarber" width="90">
+<br>
+<br>
+Code Challenge - Electron
+</h1>
 
 [![NPM Version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
 [![Downloads Stats][npm-downloads]][npm-url]
 
-De desenvolvedores para desenvolvedores o Code Tray facilita a adição e abertura de um projeto/pasta no VSCode de forma rápida.
+<p align="center">In this code challenge we developed an app that provides an easy way to open favorite projects on VSCode.</p>
 
-![](/header.png)
+<p align="center">
+  <a href="https://github.com/Rocketseat/youtube-challenge-electron-tray/graphs/contributors">
+    <img src="https://img.shields.io/github/contributors/rocketseat/youtube-challenge-electron-tray?color=%237159c1&logoColor=%237159c1&style=flat" alt="Contributors">
+  </a>
+  <a href="https://opensource.org/licenses/MIT">
+    <img src="https://img.shields.io/github/license/rocketseat/youtube-challenge-electron-tray?color=%237159c1&logo=mit" alt="License">
+  </a>
+</p>
 
-## Instalação
+<hr>
 
-OS X & Linux:
+## Participants
 
-```sh
-npm install my-crazy-module --save
-```
+| [<img src="https://avatars0.githubusercontent.com/u/2254731?s=460&v=4" width="75px;"/>](https://github.com/diego3g) | [<img src="https://avatars3.githubusercontent.com/u/7268910?s=460&v=4" width="75px;"/>](https://github.com/jpdemagalhaes) |
+| :-----------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------: |
+|                                       [Diego F.](https://github.com/diego3g)                                        |                                      [João Paulo](https://github.com/jpdemagalhaes)                                       |
 
-Windows:
+## Features
 
-```sh
-edit autoexec.bat
-```
+- :electron: **Electron** — desktop apps with JavaScript, HTML, and CSS
+- 🔺**Sentry** - cross platform application monitoring
+- 💖**Lint** — ESlint, Prettier and EditorConfig
 
-## Exemplo de uso
+## Dependencies
 
-Alguns exemplos interessantes e úteis sobre como seu projeto pode ser utilizado. Adicione blocos de códigos e, se necessário, screenshots.
+- [Node.js](https://nodejs.org/en/) 8.0.0 ou >
+- [Yarn](https://yarnpkg.com/pt-BR/docs/install)
 
-_Para mais exemplos, consulte a [Wiki][wiki]._ 
+## Getting started
 
-## Configuração para Desenvolvimento
-
-Descreva como instalar todas as dependências para desenvolvimento e como rodar um test-suite automatizado de algum tipo. Se necessário, faça isso para múltiplas plataformas.
-
-```sh
-make install
-npm test
-```
-
-## Histórico de lançamentos
-
-* 0.2.1
-    * MUDANÇA: Atualização de docs (código do módulo permanece inalterado)
-* 0.2.0
-    * MUDANÇA: Remove `setDefaultXYZ()`
-    * ADD: Adiciona `init()`
-* 0.1.1
-    * CONSERTADO: Crash quando chama `baz()` (Obrigado @NomeDoContribuidorGeneroso!)
-* 0.1.0
-    * O primeiro lançamento adequado
-    * MUDANÇA: Renomeia `foo()` para `bar()`
-* 0.0.1
-    * Trabalho em andamento
-
-## Meta
-
-Seu Nome – [@SeuNome](https://twitter.com/...) – SeuEmail@exemplo.com
-
-Distribuído sob a licença XYZ. Veja `LICENSE` para mais informações.
-
-[https://github.com/yourname/github-link](https://github.com/othonalberto/)
+1. Clone this repository;
+2. Move to the appropriate directory;<br />
+3. Run `yarn` to install dependencies.<br />
+4. Run `yarn start`.
 
 ## Contributing
 
-1. Faça o _fork_ do projeto (<https://github.com/yourname/yourproject/fork>)
-2. Crie uma _branch_ para sua modificação (`git checkout -b feature/fooBar`)
-3. Faça o _commit_ (`git commit -am 'Add some fooBar'`)
-4. _Push_ (`git push origin feature/fooBar`)
-5. Crie um novo _Pull Request_
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests.
 
-[npm-image]: https://img.shields.io/npm/v/datadog-metrics.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/datadog-metrics
-[npm-downloads]: https://img.shields.io/npm/dm/datadog-metrics.svg?style=flat-square
-[travis-image]: https://img.shields.io/travis/dbader/node-datadog-metrics/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/dbader/node-datadog-metrics
-[wiki]: https://github.com/seunome/seuprojeto/wiki
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
