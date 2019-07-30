@@ -28,12 +28,15 @@
     "dev": "nodemon --exec electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
+    "dist:linux": "electron-builder --linux",
     "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
     "@sentry/electron": "0.17.1",
     "electron-store": "^4.0.0",
-    "auto-launch": "^5.0.5"
+    "auto-launch": "^5.0.5",
+    "cross-spawn": "^6.0.5",
+    "electron-store": "^4.0.0"
   },
   "devDependencies": {
     "electron": "^5.0.7",
@@ -51,9 +54,11 @@
     },
     "linux": {
       "category": "Utility",
-      "icon": "iconLinux.png",
+      "icon": "icon.png",
       "target": [
-        "AppImage"
+        "deb",
+        "snap",
+        "rpm"
       ]
     }
   }
