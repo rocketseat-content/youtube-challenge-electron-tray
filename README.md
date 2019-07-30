@@ -25,11 +25,9 @@ Code Challenge - Electron
 | :-----------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------: |
 |                                       [Diego F.](https://github.com/diego3g)                                        |                                      [João Paulo](https://github.com/jpdemagalhaes)                                       |
 
-<hr />
-
 ## Features
 
-- :electron:  **Electron** — desktop apps with JavaScript, HTML, and CSS
+- :electron: **Electron** — desktop apps with JavaScript, HTML, and CSS
 - 🔺**Sentry** - cross platform application monitoring
 - 💖**Lint** — ESlint, Prettier and EditorConfig
 
@@ -47,8 +45,8 @@ Code Challenge - Electron
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) file for more details.
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md).
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
