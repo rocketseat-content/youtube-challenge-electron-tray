@@ -7,7 +7,7 @@
 
 De desenvolvedores para desenvolvedores o Code Tray facilita a adição e abertura de um projeto/pasta no VSCode de forma rápida.
 
-![](../header.png)
+![](/header.png)
 
 ## Instalação
 
