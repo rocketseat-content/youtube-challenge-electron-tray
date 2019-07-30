@@ -41,6 +41,10 @@
         "snap",
         "rpm"
       ]
+    },
+    "win": {
+      "target": "NSIS",
+      "icon": "icon.ico"
     }
   }
 }
