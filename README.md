@@ -9,11 +9,11 @@ Code Challenge - Electron
 <p align="center">In this code challenge we developed an app that provides an easy way to open favorite projects on VSCode.</p>
 
 <p align="center">
-  <a href="http://makeapullrequest.com">
+  <a href="https://github.com/Rocketseat/youtube-challenge-electron-tray/graphs/contributors">
     <img src="https://img.shields.io/github/contributors/rocketseat/youtube-challenge-electron-tray?color=%237159c1&logoColor=%237159c1&style=flat" alt="Contributors">
   </a>
   <a href="https://opensource.org/licenses/MIT">
-    <img src="https://img.shields.io/github/license/rocketseat/youtube-challenge-electron-tray?color=%237159c1" alt="License">
+    <img src="https://img.shields.io/github/license/rocketseat/youtube-challenge-electron-tray?color=%237159c1&logo=mit" alt="License">
   </a>
 </p>
 
