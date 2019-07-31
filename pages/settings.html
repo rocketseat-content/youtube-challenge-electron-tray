@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preferences</title>
+  <link rel="stylesheet" href="settings.css">
+</head>
+
+<body>
+  <div class="app">
+    <ul>
+      <li>
+        <fieldset class="default-apps">
+          <legend>Default apps</legend>
+          <ul>
+            <li>
+              <label for="default-editor">Editor:</label>
+              <input type="text" name="default-editor" disabled>
+              <a href="#" class="browse-btn" id="browse-editor">Browse</a>
+            </li>
+            <li>
+              <label for="default-terminal">Terminal:</label>
+              <input type="text" name="default-terminal" disabled>
+              <a href="#" class="browse-btn" id="browse-terminal">Browse</a>
+            </li>
+          </ul>
+        </fieldset>
+      </li>
+
+      <li>
+        <fieldset class="general">
+          <legend>General</legend>
+          <ul>
+            <li>
+              <input type="checkbox" name="startup" class="checkbox" id="start-on-login">
+              <label for="startup">Start on login</label>
+            </li>
+          </ul>
+        </fieldset>
+      </li>
+    </ul>
+  </div>
+  <script src="settings.js"></script>
+</body>
+
+</html>
