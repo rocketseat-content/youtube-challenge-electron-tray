@@ -1,6 +1,6 @@
 const { resolve, basename } = require('path');
 const {
-  app, Menu, Tray, dialog,
+  app, Menu, Tray, dialog, BrowserWindow,
 } = require('electron');
 const spawn = require('cross-spawn')
 const Store = require('electron-store');
@@ -15,9 +15,10 @@ const schema = {
 };
 
 let mainTray = {}
+let prefsWindow = null;
 
-if (app.dock) { 
-  app.dock.hide() 
+if (app.dock) {
+  app.dock.hide()
 }
 
 const store = new Store({ schema });
@@ -84,6 +85,12 @@ function render(tray = mainTray) {
       type: 'separator',
     },
     {
+      label: 'Preferences',
+      click: () => {
+        prefsWindow.show();
+      }
+    },
+    {
       type: 'normal',
       label: 'Fechar Code Tray',
       role: 'quit',
@@ -98,4 +105,17 @@ app.on('ready', () => {
   mainTray = new Tray(resolve(__dirname, 'assets', 'iconTemplate.png'));
 
   render(mainTray);
+
+  prefsWindow = new BrowserWindow({
+    show: false,
+    width: 400,
+    height: 250,
+    maximizable: false,
+    minimizable: false
+  });
+  prefsWindow.loadURL(`file://${__dirname}/pages/settings.html`);
+  prefsWindow.on('close', (evt) => {
+    evt.preventDefault();
+    prefsWindow.hide();
+  })
 });
