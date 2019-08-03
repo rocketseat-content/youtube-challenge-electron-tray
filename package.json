@@ -1,10 +1,27 @@
 {
   "name": "code-tray",
   "description": "Open VSCode projects from tray menu.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "main.js",
-  "repository": "https://github.com/diego3g/youtube-challenge-electron-tray",
+  "repository": "https://github.com/Rocketseat/youtube-challenge-electron-tray",
   "author": "Rocketseat <oi@rocketseat.com.br>",
+  "contributors": [
+    {
+      "name": "Diego Fernandes",
+      "email": "diego.schell.f@gmail.com",
+      "url": "https://github.com/diego3g"
+    },
+    {
+      "name": "Walter Ribeiro",
+      "email": "walterjunioranalise@gmail.com",
+      "url": "https://github.com/walteribeiro"
+    },
+    {
+      "name": "Luiz Júnior",
+      "email": "luizjrdeveloper@gmail.com",
+      "url": "https://github.com/luizjr"
+    }
+  ],
   "license": "MIT",
   "scripts": {
     "start": "electron .",
@@ -16,6 +33,8 @@
   },
   "dependencies": {
     "@sentry/electron": "0.17.1",
+    "electron-store": "^4.0.0",
+    "auto-launch": "^5.0.5",
     "cross-spawn": "^6.0.5",
     "electron-store": "^4.0.0"
   },
