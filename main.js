@@ -2,9 +2,13 @@ const { resolve, basename } = require('path');
 const {
   app, Menu, Tray, dialog, BrowserWindow,
 } = require('electron');
-const spawn = require('cross-spawn')
+const { spawn } = require('child_process');
 const Store = require('electron-store');
+const fixPath = require('fix-path');
 const Sentry = require('@sentry/electron');
+const fs = require('fs');
+
+fixPath();
 
 Sentry.init({ dsn: 'https://18c9943a576d41248b195b5678f2724e@sentry.io/1506479' });
 
@@ -14,36 +18,45 @@ const schema = {
   },
 };
 
-let mainTray = {}
-let prefsWindow = null;
+let mainTray = {};
 
 if (app.dock) {
-  app.dock.hide()
+  app.dock.hide();
 }
 
 const store = new Store({ schema });
 
+function getLocale() {
+  const locale = app.getLocale();
+
+  switch (locale) {
+    case 'es-419' || 'es':
+      return JSON.parse(fs.readFileSync(resolve(__dirname, 'locale/es.json')));
+      break;
+    case 'pt-BR' || 'pt-PT':
+      return JSON.parse(fs.readFileSync(resolve(__dirname, 'locale/pt.json')));
+    default: 
+      return JSON.parse(fs.readFileSync(resolve(__dirname, 'locale/en.json')));
+      break;
+  }
+}
+
 function render(tray = mainTray) {
   const storedProjects = store.get('projects');
   const projects = storedProjects ? JSON.parse(storedProjects) : [];
+  const locale = getLocale();
 
-  const items = projects.map(( {name, path} ) => ({
+  const items = projects.map(({ name, path }) => ({
     label: name,
     submenu: [
       {
-        label: 'Abrir no VSCode',
+        label: locale.open,
         click: () => {
-          spawn('code', [path],{
-            cwd: process.cwd(),
-            env: {
-              PATH: process.env.PATH,
-            },
-            stdio: ['inherit'],
-          })
+          spawn('code', [path], { shell: true });
         },
       },
       {
-        label: 'Remover',
+        label: locale.remove,
         click: () => {
           store.set('projects', JSON.stringify(projects.filter(item => item.path !== path)));
           render();
@@ -54,7 +67,7 @@ function render(tray = mainTray) {
 
   const contextMenu = Menu.buildFromTemplate([
     {
-      label: 'Adicionar novo projeto...',
+      label: locale.add,
       click: () => {
         const result = dialog.showOpenDialog({ properties: ['openDirectory'] });
 
@@ -87,12 +100,12 @@ function render(tray = mainTray) {
     {
       label: 'Preferences',
       click: () => {
-        prefsWindow.show();
-      }
+	      prefsWindow.show();
+	    }
     },
     {
       type: 'normal',
-      label: 'Fechar Code Tray',
+      label: locale.close,
       role: 'quit',
       enabled: true,
     },
@@ -105,17 +118,17 @@ app.on('ready', () => {
   mainTray = new Tray(resolve(__dirname, 'assets', 'iconTemplate.png'));
 
   render(mainTray);
-
+  
   prefsWindow = new BrowserWindow({
     show: false,
     width: 400,
     height: 250,
     maximizable: false,
     minimizable: false
-  });
+	  });
   prefsWindow.loadURL(`file://${__dirname}/pages/settings.html`);
   prefsWindow.on('close', (evt) => {
     evt.preventDefault();
     prefsWindow.hide();
-  })
+  });
 });
