@@ -39,7 +39,7 @@ Code Challenge - Electron
 ## Getting started
 
 1. Clone this repository;
-2. Move to the appropriate directory;<br />
+2. `cd youtube-challenge-electron-tray`;<br />
 3. Run `yarn` to install dependencies.<br />
 4. Run `yarn start`.
 
