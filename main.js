@@ -1,6 +1,6 @@
 const { resolve, basename } = require('path');
 const {
-  app, Menu, Tray, dialog,
+  app, Menu, Tray, dialog, BrowserWindow,
 } = require('electron');
 
 const { spawn } = require('child_process');
@@ -98,6 +98,12 @@ function render(tray = mainTray) {
       type: 'separator',
     },
     {
+      label: 'Preferences',
+      click: () => {
+	      prefsWindow.show();
+	    }
+    },
+    {
       type: 'normal',
       label: locale.close,
       role: 'quit',
@@ -114,4 +120,17 @@ app.on('ready', () => {
   mainTray = new Tray(resolve(__dirname, 'assets', 'iconTemplate.png'));
 
   render(mainTray);
+  
+  prefsWindow = new BrowserWindow({
+    show: false,
+    width: 400,
+    height: 250,
+    maximizable: false,
+    minimizable: false
+	  });
+  prefsWindow.loadURL(`file://${__dirname}/pages/settings.html`);
+  prefsWindow.on('close', (evt) => {
+    evt.preventDefault();
+    prefsWindow.hide();
+  });
 });
