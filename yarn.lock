@@ -1029,6 +1029,11 @@ electron-store@^4.0.0:
     conf "^5.0.0"
     type-fest "^0.5.2"
 
+electron-traywindow-positioner@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/electron-traywindow-positioner/-/electron-traywindow-positioner-1.1.0.tgz#f8f13760db0ece036e5a6749cfc61a6a78f1fa1b"
+  integrity sha512-/i1jh1L8qyUJAZ1KVT67SEK/OZ+3F2Qfe8mCfuXHSVC5tAOuw3U971LuxMvAsJJS/yNW0oSQ9pCbVzqGlNCeJQ==
+
 electron@^8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/electron/-/electron-8.0.0.tgz#b5f105cda6985ca2f2496de15e44b2bbb0c8e4f4"

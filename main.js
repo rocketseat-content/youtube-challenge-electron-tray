@@ -1,22 +1,26 @@
 const { resolve } = require('path');
 const {
-  app, BrowserWindow, Tray, screen,
+  app, BrowserWindow, Tray,
 } = require('electron');
+const positioner = require('electron-traywindow-positioner');
 
 const Sentry = require('@sentry/electron');
-// Sentry.init({ dsn: 'https://18c9943a576d41248b195b5678f2724e@sentry.io/1506479' });
+
+Sentry.init({ dsn: 'https://18c9943a576d41248b195b5678f2724e@sentry.io/1506479' });
 
 if (app.dock) {
   app.dock.hide();
 }
 
-let windowSizes;
+const mainWidth = 500;
+const mainHeight = 600;
+
 let mainWindow;
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 1600,
-    height: 900,
+    width: mainWidth,
+    height: mainHeight,
     frame: false,
     maximizable: false,
     minimizable: false,
@@ -38,14 +42,12 @@ function createWindow() {
 
 app.on('ready', () => {
   app.allowRendererProcessReuse = true;
-  windowSizes = screen.getPrimaryDisplay().size;
   createWindow();
   const mainTray = new Tray(resolve(__dirname, 'assets', 'iconTemplate.png'));
   mainTray.on('click', (e, p) => {
     mainWindow.show();
     mainWindow.focus();
-
-    mainWindow.setPosition(p.x, p.y, false);
-    mainWindow.setSize(windowSizes.width - p.x, 900, false);
+    const position = positioner.calculate(mainWindow.getBounds(), mainTray.getBounds());
+    mainWindow.setPosition(position.x, position.y);
   });
 });
