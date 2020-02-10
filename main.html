@@ -243,8 +243,6 @@
       align-items: center;
     }
   </style>
-
-  <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 </head>
 
@@ -378,6 +376,15 @@
     let initSystem = store.get('initSystem');
     if (initSystem !== false && initSystem !== true) { initSystem = false; }
 
+    let cssFile = '';
+    for (const themeConfig in storedTheme) {
+      const classNameValue = themeConfig.split('_');
+      cssFile = `${cssFile}.${classNameValue[0]}{${classNameValue[1]}:${storedTheme[themeConfig]} !important;} `
+    }
+    let styleElement = document.createElement('style');
+    styleElement.innerHTML = cssFile;
+    document.body.appendChild(styleElement);
+
     function getLocale() {
       const locale = remote.app.getLocale();
 
@@ -474,12 +481,6 @@
           this.showModal = false;
         },
         setTheme: function () {
-          let cssFile = '';
-          for (const themeConfig in this.theme) {
-            const classNameValue = themeConfig.split('_');
-            cssFile = `${cssFile}.${classNameValue[0]}{${classNameValue[1]}:${this.theme[themeConfig]} !important;} `
-          }
-          fs.writeFileSync('style.css', cssFile);
           location.reload();
         },
       }
