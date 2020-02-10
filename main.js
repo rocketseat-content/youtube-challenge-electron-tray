@@ -1,117 +1,52 @@
-const { resolve, basename } = require('path');
+const { resolve } = require('path');
 const {
-  app, Menu, Tray, dialog,
+  app, BrowserWindow, Tray,
 } = require('electron');
+const positioner = require('electron-traywindow-positioner');
 
-const { spawn } = require('child_process');
-const fixPath = require('fix-path');
-const fs = require('fs');
-
-const Store = require('electron-store');
 const Sentry = require('@sentry/electron');
 
-fixPath();
-
-Sentry.init({ dsn: 'https://18c9943a576d41248b195b5678f2724e@sentry.io/1506479' });
-
-const schema = {
-  projects: {
-    type: 'string',
-  },
-};
-
-let mainTray = {};
+// Sentry.init({ dsn: 'https://18c9943a576d41248b195b5678f2724e@sentry.io/1506479' });
 
 if (app.dock) {
   app.dock.hide();
 }
 
-const store = new Store({ schema });
+const mainWidth = 500;
+const mainHeight = 600;
 
-function getLocale() {
-  const locale = app.getLocale();
-
-  switch (locale) {
-    case 'es-419' || 'es':
-      return JSON.parse(fs.readFileSync(resolve(__dirname, 'locale/es.json')));
-    case 'pt-BR' || 'pt-PT':
-      return JSON.parse(fs.readFileSync(resolve(__dirname, 'locale/pt.json')));
-    default:
-      return JSON.parse(fs.readFileSync(resolve(__dirname, 'locale/en.json')));
-  }
-}
-
-function render(tray = mainTray) {
-  const storedProjects = store.get('projects');
-  const projects = storedProjects ? JSON.parse(storedProjects) : [];
-  const locale = getLocale();
-
-  const items = projects.map(({ name, path }) => ({
-    label: name,
-    submenu: [
-      {
-        label: locale.open,
-        click: () => {
-          spawn('code', [path], { shell: true });
-        },
-      },
-      {
-        label: locale.remove,
-        click: () => {
-          store.set('projects', JSON.stringify(projects.filter(item => item.path !== path)));
-          render();
-        },
-      },
-    ],
-  }));
-
-  const contextMenu = Menu.buildFromTemplate([
-    {
-      label: locale.add,
-      click: () => {
-        const result = dialog.showOpenDialog({ properties: ['openDirectory'] });
-
-        if (!result) return;
-
-        const [path] = result;
-        const name = basename(path);
-
-        store.set(
-          'projects',
-          JSON.stringify([
-            ...projects,
-            {
-              path,
-              name,
-            },
-          ]),
-        );
-
-        render();
-      },
+let mainWindow;
+function createWindow() {
+  mainWindow = new BrowserWindow({
+    width: mainWidth,
+    height: mainHeight,
+    frame: false,
+    maximizable: false,
+    minimizable: false,
+    fullscreenable: false,
+    resizable: false,
+    movable: false,
+    webPreferences: {
+      nodeIntegration: true,
     },
-    {
-      type: 'separator',
-    },
-    ...items,
-    {
-      type: 'separator',
-    },
-    {
-      type: 'normal',
-      label: locale.close,
-      role: 'quit',
-      enabled: true,
-    },
-  ]);
+  });
 
-  tray.setContextMenu(contextMenu);
+  mainWindow.loadFile('./main.html');
+  mainWindow.hide();
 
-  tray.on('click', tray.popUpContextMenu);
+  mainWindow.on('blur', () => mainWindow.hide());
+
+  // mainWindow.webContents.openDevTools();
 }
 
 app.on('ready', () => {
-  mainTray = new Tray(resolve(__dirname, 'assets', 'iconTemplate.png'));
-
-  render(mainTray);
+  app.allowRendererProcessReuse = true;
+  createWindow();
+  const mainTray = new Tray(resolve(__dirname, 'assets', 'iconTemplate.png'));
+  mainTray.on('click', () => {
+    mainWindow.show();
+    mainWindow.focus();
+    const position = positioner.calculate(mainWindow.getBounds(), mainTray.getBounds());
+    mainWindow.setPosition(position.x, position.y);
+  });
 });

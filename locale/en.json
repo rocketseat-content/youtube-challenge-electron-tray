@@ -1,6 +1,19 @@
 {
-    "open": "Open with VSCode",
-    "add": "Add new project folder...",
-    "close": "Quit",
-    "remove": "Remove"
+  "open": "Open with VSCode",
+  "add": "Add new project folder...",
+  "close": "Quit",
+  "remove": "Remove",
+  "openConfig": "Settings",
+  "save": "Save",
+  "cancel": "Cancel",
+  "initSystem": "Start with the system",
+  "themebackground": "Background",
+  "themeprojectName": "Project Name",
+  "themeprojectPath": "Project Path",
+  "themebtnRemoveProject": "Remove Project Button",
+  "themebtnAddProject": "Add Project Button",
+  "themebtnConfig": "Configuration Button",
+  "themebtnQuit": "Exit Button",
+  "themebtnSaveConfig": "Save Configuration Button",
+  "themebtnCancelConfig": "Cancel Configuration Button"
 }
