@@ -1,6 +1,19 @@
 {
-    "open": "Abrir en el VSCode",
-    "add": "Agregar un nuevo proyecto...",
-    "close": "Cerrar Code Tray",
-    "remove": "Quitar"
+  "open": "Abrir en el VSCode",
+  "add": "Agregar un nuevo proyecto...",
+  "close": "Cerrar Code Tray",
+  "remove": "Quitar",
+  "openConfig": "Configuraciones",
+  "save": "Guardar",
+  "cancel": "Cancelar",
+  "initSystem": "Comience con el sistema",
+  "themebackground": "Plano de fondo",
+  "themeprojectName": "Nombre del proyecto",
+  "themeprojectPath": "Camino del proyecto",
+  "themebtnRemoveProject": "Eliminar proyecto botón",
+  "themebtnAddProject": "Agregar botón de proyecto",
+  "themebtnConfig": "Botón de configuración",
+  "themebtnQuit": "Botón de salida",
+  "themebtnSaveConfig": "Botón Guardar configuración",
+  "themebtnCancelConfig": "Cancelar el botón de configuración"
 }

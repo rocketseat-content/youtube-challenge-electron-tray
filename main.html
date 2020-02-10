@@ -15,17 +15,7 @@
     }
 
     .scroll::-webkit-scrollbar {
-      width: 10px;
-    }
-
-    .scroll::-webkit-scrollbar-thumb {
-      background: #5F49AD;
-      border-radius: 5px;
-    }
-
-    .scroll::-webkit-scrollbar-track {
-      background: #fff;
-      border-radius: 5px;
+      width: 1px;
     }
 
     html {
@@ -34,6 +24,7 @@
     }
 
     body {
+      font-family: Helvetica, Arial, sans-serif;
       width: 100%;
       height: 100%;
       display: flex;
@@ -42,10 +33,7 @@
       align-items: center;
       margin: 0;
       padding: 0;
-      background-image: url('./assets/background.png');
-      background-repeat: no-repeat;
-      background-size: 100%;
-      background-color: #5F49AD;
+      background: #282a36;
     }
 
     #app {
@@ -84,24 +72,24 @@
       height: 28px;
       padding: 0 20px;
       font-size: 12px;
-      background: #DDD;
-      color: #000;
+      background: #f8f8f2;
+      color: #282a36;
       cursor: pointer;
     }
 
     .btn.red {
-      background: #DF4723;
-      color: #fff;
+      background: #ff5555;
+      color: #f8f8f2;
     }
 
     .btn.blue {
       background: #1B6A8D;
-      color: #fff;
+      color: #f8f8f2;
     }
 
     .btn.transparent {
       background: transparent;
-      color: #fff;
+      color: #f8f8f2;
     }
 
     ul {
@@ -130,31 +118,233 @@
 
     ul li .project span {
       font-size: 10px;
+      color: #6272a4;
+    }
+
+    /* *************************************************************** */
+    /* **************************** MODAL **************************** */
+    /* *************************************************************** */
+
+    .modal-mask {
+      position: fixed;
+      z-index: 9998;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: table;
+      transition: opacity .3s ease;
+    }
+
+    .modal-mask form {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-wrapper {
+      display: table-cell;
+      vertical-align: middle;
+    }
+
+    .modal-container {
+      width: 480px;
+      height: 580px;
+      display: flex;
+      box-sizing: border-box;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0px auto;
+      padding: 20px 30px;
+      background: #282a36;
+      border-radius: 2px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+      transition: all .3s ease;
+      font-family: Helvetica, Arial, sans-serif;
+    }
+
+    .modal-body {
+      width: 100%;
+      height: 500px;
+    }
+
+    .modal-body div {
+      padding: 0 10px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-input {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-input .mult-input {
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    .form-input .mult-input input {
+      width: 40%;
+    }
+
+    .form-input input {
+      margin-top: 3px;
+    }
+
+    .modal-body input[type=text] {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      height: 36px;
+      padding: 0 10px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .modal-body input::placeholder {
+      color: #999;
+    }
+
+    .modal-body label {
+      cursor: pointer;
+      color: #f8f8f2;
+    }
+
+    .modal-enter {
+      opacity: 0;
+    }
+
+    .modal-leave-active {
+      opacity: 0;
+    }
+
+    .modal-enter .modal-container,
+    .modal-leave-active .modal-container {
+      -webkit-transform: scale(1.1);
+      transform: scale(1.1);
+    }
+
+    .modal-footer {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
     }
   </style>
 
+  <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 </head>
 
-<body>
+<body class="background">
   <div id="app">
 
     <div class="content scroll">
       <ul class="">
         <li v-for="project in projectsList">
-          <button class="btn transparent project" v-on:click="openProject(project)">
+          <button class="btn transparent project projectName" @click="openProject(project)">
             {{ project.name }} <br>
-            <span>{{ project.path }}</span>
+            <span class="projectPath">{{ project.path }}</span>
           </button>
-          <button class="btn red" v-on:click="removeProject(project)">{{remove}}</button>
+          <button class="btn red btnRemoveProject" @click="removeProject(project)">{{remove}}</button>
         </li>
       </ul>
     </div>
 
     <div class="footer">
-      <button class="btn blue" v-on:click="addProject">{{add}}</button>
-      <button class="btn red" v-on:click="quitApp">{{close}}</button>
+      <button class="btn blue btnAddProject" @click="addProject">{{add}}</button>
+      <button class="btn blue btnConfig" @click="showModal = true">{{openConfig}}</button>
+      <button class="btn red btnQuit" @click="quitApp">{{close}}</button>
     </div>
+
+    <transition v-if="showModal" name="modal">
+      <div class="modal-mask">
+        <form @submit="saveConfig">
+          <div class="modal-wrapper">
+            <div class="modal-container background">
+
+              <div class="modal-body scroll">
+                <div>
+                  <!-- <label><input type="checkbox" v-model="initSystem"> {{initSystemText}}</label> -->
+                  <label class="form-input">
+                    {{themebackground}}
+                    <input type="text" pattern="^#[0-9A-Fa-f]{6}" v-model="theme.background_background">
+                  </label>
+                  <label class="form-input">
+                    {{themeprojectName}}
+                    <input type="text" pattern="^#[0-9A-Fa-f]{6}" v-model="theme.projectName_color">
+                  </label>
+                  <label class="form-input">
+                    {{themeprojectPath}}
+                    <input type="text" pattern="^#[0-9A-Fa-f]{6}" v-model="theme.projectPath_color">
+                  </label>
+                  <label class="form-input">
+                    {{themebtnRemoveProject}}
+                    <div class="mult-input">
+                      <input type="text" pattern="^#[0-9A-Fa-f]{6}" v-model="theme.btnRemoveProject_background">
+                      <input type="text" pattern="^#[0-9A-Fa-f]{6}" v-model="theme.btnRemoveProject_color">
+                    </div>
+                  </label>
+                  <label class="form-input">
+                    {{themebtnAddProject}}
+                    <div class="mult-input">
+                      <input type="text" pattern="^#[0-9A-Fa-f]{6}" v-model="theme.btnAddProject_background">
+                      <input type="text" pattern="^#[0-9A-Fa-f]{6}" v-model="theme.btnAddProject_color">
+                    </div>
+                  </label>
+                  <label class="form-input">
+                    {{themebtnConfig}}
+                    <div class="mult-input">
+                      <input type="text" pattern="^#[0-9A-Fa-f]{6}" v-model="theme.btnConfig_background">
+                      <input type="text" pattern="^#[0-9A-Fa-f]{6}" v-model="theme.btnConfig_color">
+                    </div>
+                  </label>
+                  <label class="form-input">
+                    {{themebtnQuit}}
+                    <div class="mult-input">
+                      <input type="text" pattern="^#[0-9A-Fa-f]{6}" v-model="theme.btnQuit_background">
+                      <input type="text" pattern="^#[0-9A-Fa-f]{6}" v-model="theme.btnQuit_color">
+                    </div>
+                  </label>
+                  <label class="form-input">
+                    {{themebtnSaveConfig}}
+                    <div class="mult-input">
+                      <input type="text" pattern="^#[0-9A-Fa-f]{6}" v-model="theme.btnSaveConfig_background">
+                      <input type="text" pattern="^#[0-9A-Fa-f]{6}" v-model="theme.btnSaveConfig_color">
+                    </div>
+                  </label>
+                  <label class="form-input">
+                    {{themebtnCancelConfig}}
+                    <div class="mult-input">
+                      <input type="text" pattern="^#[0-9A-Fa-f]{6}" v-model="theme.btnCancelConfig_background">
+                      <input type="text" pattern="^#[0-9A-Fa-f]{6}" v-model="theme.btnCancelConfig_color">
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button class="btn red btnCancelConfig" @click="cancelConfig">{{cancel}}</button>
+                <button class="btn blue btnSaveConfig" type="submit">{{save}}</button>
+              </div>
+
+            </div>
+          </div>
+        </form>
+      </div>
+    </transition>
 
   </div>
 
@@ -169,6 +359,12 @@
     fixPath();
 
     const schema = {
+      theme: {
+        type: 'string',
+      },
+      initSystem: {
+        type: 'boolean',
+      },
       projects: {
         type: 'string',
       },
@@ -177,6 +373,10 @@
     const Store = require('electron-store');
     const store = new Store({ schema });
     const storedProjects = store.get('projects');
+    let storedTheme = store.get('theme');
+    storedTheme = storedTheme ? JSON.parse(storedTheme) : {}
+    let initSystem = store.get('initSystem');
+    if (initSystem !== false && initSystem !== true) { initSystem = false; }
 
     function getLocale() {
       const locale = remote.app.getLocale();
@@ -190,14 +390,33 @@
           return JSON.parse(fs.readFileSync(resolve(__dirname, 'locale/en.json')));
       }
     }
+    const localeText = getLocale()
 
     const app = new Vue({
       el: '#app',
       data: {
-        add: getLocale().add,
-        close: getLocale().close,
-        remove: getLocale().remove,
+        showModal: false,
+        add: localeText.add,
+        close: localeText.close,
+        remove: localeText.remove,
+        openConfig: localeText.openConfig,
+        save: localeText.save,
+        cancel: localeText.cancel,
+        initSystemText: localeText.initSystem,
+        themebackground: localeText.themebackground,
+        themeprojectName: localeText.themeprojectName,
+        themeprojectPath: localeText.themeprojectPath,
+        themebtnRemoveProject: localeText.themebtnRemoveProject,
+        themebtnAddProject: localeText.themebtnAddProject,
+        themebtnConfig: localeText.themebtnConfig,
+        themebtnQuit: localeText.themebtnQuit,
+        themebtnSaveConfig: localeText.themebtnSaveConfig,
+        themebtnCancelConfig: localeText.themebtnCancelConfig,
         projectsList: storedProjects ? JSON.parse(storedProjects) : [],
+        initSystem: initSystem,
+        theme: {
+          ...storedTheme
+        }
       },
       methods: {
         quitApp: function () {
@@ -216,24 +435,52 @@
               },
             ]
           });
-          store.set(
-            'projects',
-            JSON.stringify(this.projectsList),
-          );
+          store.set('projects', JSON.stringify(this.projectsList));
         },
         removeProject: async function (project) {
           const index = this.projectsList.indexOf(project);
           if (index > -1) {
             this.projectsList.splice(index, 1);
           }
-          store.set(
-            'projects',
-            JSON.stringify(this.projectsList),
-          );
+          store.set('projects', JSON.stringify(this.projectsList));
         },
         openProject: async function (project) {
           spawn('code', [project.path], { shell: true });
           remote.getCurrentWindow().hide();
+        },
+        cancelConfig: async function () {
+          storedTheme = store.get('theme');
+          storedTheme = storedTheme ? JSON.parse(storedTheme) : {}
+          this.theme = {
+            ...storedTheme
+          }
+          initSystem = store.get('initSystem');
+          if (initSystem !== false && initSystem !== true) { initSystem = false; }
+          this.initSystem = initSystem;
+          this.showModal = false;
+        },
+        saveConfig: async function (e) {
+          e.preventDefault();
+
+          for (const themeConfig in this.theme) {
+            if (!this.theme[themeConfig]) {
+              return;
+            }
+          }
+
+          store.set('initSystem', this.initSystem);
+          store.set('theme', JSON.stringify(this.theme));
+          this.setTheme();
+          this.showModal = false;
+        },
+        setTheme: function () {
+          let cssFile = '';
+          for (const themeConfig in this.theme) {
+            const classNameValue = themeConfig.split('_');
+            cssFile = `${cssFile}.${classNameValue[0]}{${classNameValue[1]}:${this.theme[themeConfig]} !important;} `
+          }
+          fs.writeFileSync('style.css', cssFile);
+          location.reload();
         },
       }
     })

@@ -17,7 +17,6 @@ const mainHeight = 600;
 
 let mainWindow;
 function createWindow() {
-  // Create the browser window.
   mainWindow = new BrowserWindow({
     width: mainWidth,
     height: mainHeight,
