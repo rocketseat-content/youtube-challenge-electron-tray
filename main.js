@@ -52,6 +52,9 @@ function render(tray = mainTray) {
       {
         label: locale.open,
         click: () => {
+          if (basename(path).split(' ').length > 1) {
+            path = `"${path}"`
+          }
           spawn('code', [path], { shell: true });
         },
       },
