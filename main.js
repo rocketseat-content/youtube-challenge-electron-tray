@@ -63,7 +63,11 @@ function render(tray = mainTray) {
         },
       },
     ],
-  }));
+  })).sort((a, b) => {
+    if (a.label > b.label) return 1;
+    if (a.label < b.label) return -1;
+    return 0;
+  });
 
   const contextMenu = Menu.buildFromTemplate([
     {
